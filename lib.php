@@ -201,6 +201,7 @@ function choicegroup_prepare_options($choicegroup, $user, $coursemodule, $allres
 
     $cdisplay = array('options'=>array());
 
+    $cdisplay['choicegroupid'] = $choicegroup->id;
     $cdisplay['limitanswers'] = true;
     $context = get_context_instance(CONTEXT_MODULE, $coursemodule->id);
 

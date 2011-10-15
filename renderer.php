@@ -38,7 +38,7 @@ class mod_choicegroup_renderer extends plugin_renderer_base {
         global $DB;
         $layoutclass = 'vertical';
         $target = new moodle_url('/mod/choicegroup/view.php');
-        $attributes = array('method'=>'POST', 'target'=>$target, 'class'=> $layoutclass);
+        $attributes = array('method'=>'POST', 'action'=>$target, 'class'=> $layoutclass);
 
         $html = html_writer::start_tag('form', $attributes);
         $html .= html_writer::start_tag('table', array('class'=>'choicegroups' ));
@@ -51,6 +51,33 @@ class mod_choicegroup_renderer extends plugin_renderer_base {
         $html .= html_writer::tag('th', get_string('groupmembers', 'choicegroup') . $membersdisplay_html);
         $html .= html_writer::end_tag('tr');
 
+        $groupdata = $DB->get_records_sql('SELECT
+                                            o.id,
+                                            g.name
+                                        FROM
+                                            {groups} g,
+                                            {choicegroup_options} o
+                                        WHERE
+                                            o.choicegroupid = ? AND
+                                            g.id = o.text', array($options['choicegroupid']));
+        $userdata = $DB->get_records_sql('SELECT
+                                            a.optionid,
+                                            u.lastname,
+                                            u.firstname
+                                        FROM
+                                            {user} u,
+                                            {choicegroup_answers} a
+                                        WHERE
+                                            a.choicegroupid = ? AND
+                                            u.id = a.userid', array($options['choicegroupid']));
+        $option_group = array();
+        foreach ($groupdata as $line)
+            $option_group[$line->id] = $line->name;
+            
+        $option_users = array();
+        foreach ($userdata as $line)
+            $option_users[$line->optionid][] = $line->lastname . ', ' . $line->firstname;
+        
         $availableoption = count($options['options']);
         foreach ($options['options'] as $option) {
             $html .= html_writer::start_tag('tr', array('class'=>'option'));
@@ -58,14 +85,8 @@ class mod_choicegroup_renderer extends plugin_renderer_base {
             $option->attributes->name = 'answer';
             $option->attributes->type = 'radio';
 
-            $group = $DB->get_record('groups', array('id' => $option->text));
-            $labeltext = $group->name;
-            $group_members = $DB->get_records('groups_members', array('groupid' => $group->id));
-            $group_members_names = array();
-            foreach ($group_members as $group_member) {
-                $group_user = $DB->get_record('user', array('id' => $group_member->userid));
-                $group_members_names[] = $group_user->lastname . ', ' . $group_user->firstname;
-            }
+            $labeltext = $option_group[$option->attributes->value];
+            $group_members_names = isset($option_users[$option->attributes->value]) ? $option_users[$option->attributes->value] : array();
             sort($group_members_names);
             if (!empty($option->attributes->disabled)) {
                 $labeltext .= ' ' . get_string('full', 'choicegroup');
