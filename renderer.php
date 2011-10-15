@@ -75,8 +75,11 @@ class mod_choicegroup_renderer extends plugin_renderer_base {
             $option_group[$line->id] = $line->name;
             
         $option_users = array();
-        foreach ($userdata as $line)
-            $option_users[$line->optionid][] = $line->lastname . ', ' . $line->firstname;
+        foreach ($userdata as $line) {
+            if (!isset($option_users[$line->optionid]))
+				$option_users[$line->optionid] = array();
+			$option_users[$line->optionid][] = $line->lastname . ', ' . $line->firstname;
+		}
         
         $availableoption = count($options['options']);
         foreach ($options['options'] as $option) {
