@@ -105,8 +105,8 @@ class mod_choicegroup_renderer extends plugin_renderer_base {
             }
 
 			for ($i = 0; $i < sizeof($group_members_names); $i++) {
-				$url = new moodle_url('/user/view.php', array('id'=>$groups_members_ids[$i],'course'=>$options['courseid']));
-				$groups_members_names[$i] = html_writer::link($url, $groups_members_names[$i]);
+				$url = new moodle_url('/user/view.php', array('id'=>$group_members_ids[$i],'course'=>$options['courseid']));
+				$group_members_names[$i] = html_writer::link($url, $group_members_names[$i]);
 			}
 
             $html .= html_writer::empty_tag('input', (array)$option->attributes);
