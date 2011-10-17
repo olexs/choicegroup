@@ -61,7 +61,8 @@ class mod_choicegroup_renderer extends plugin_renderer_base {
                                             o.choicegroupid = ? AND
                                             g.id = o.text', array($options['choicegroupid']));
         $userdata = $DB->get_records_sql('SELECT
-                                            o.id,
+											gm.id,
+                                            o.id as optionid,
                                             u.lastname,
                                             u.firstname
                                         FROM
@@ -78,9 +79,9 @@ class mod_choicegroup_renderer extends plugin_renderer_base {
             
         $option_users = array();
         foreach ($userdata as $line) {
-            if (!isset($option_users[$line->id]))
-				$option_users[$line->id] = array();
-			$option_users[$line->id][] = $line->lastname . ', ' . $line->firstname;
+            //if (!isset($option_users[$line->id]))
+			//	$option_users[$line->id] = array();
+			$option_users[$line->optionid][] = $line->lastname . ', ' . $line->firstname;
 		}
         
         $availableoption = count($options['options']);
