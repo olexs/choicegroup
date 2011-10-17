@@ -94,7 +94,7 @@ class mod_choicegroup_renderer extends plugin_renderer_base {
             $labeltext = $option_group[$option->attributes->value];
             $group_members_names = isset($option_users[$option->attributes->value]) ? $option_users[$option->attributes->value] : array();
             sort($group_members_names);
-            if (!empty($option->attributes->disabled)) {
+            if (!empty($option->attributes->disabled) || sizeof($group_members_names) >= $option->maxanswers) {
                 $labeltext .= ' ' . get_string('full', 'choicegroup');
                 $availableoption--;
             }
