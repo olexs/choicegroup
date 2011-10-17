@@ -286,6 +286,11 @@ WHERE
                 }
             }
         }
+		
+		$groupmembers = $DB->get_records_sql('SELECT gm.id FROM {groups_members} gm, {choicegroup_options} o WHERE o.id = ? AND gm.groupid = o.text', array($formanswer));
+		if (sizeof($groupmembers) > $countanswers)
+			$countanswers = $groupmembers;
+			
         $maxans = $choicegroup->maxanswers[$formanswer];
     }
 
