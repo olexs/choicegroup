@@ -63,6 +63,7 @@ class mod_choicegroup_renderer extends plugin_renderer_base {
         $userdata = $DB->get_records_sql('SELECT
 											gm.id,
                                             o.id as optionid,
+											u.id as userid,
                                             u.lastname,
                                             u.firstname
                                         FROM
@@ -78,10 +79,12 @@ class mod_choicegroup_renderer extends plugin_renderer_base {
             $option_group[$line->id] = $line->name;
             
         $option_users = array();
-        foreach ($userdata as $line) {
+        $option_userids = array();
+		foreach ($userdata as $line) {
             //if (!isset($option_users[$line->id]))
 			//	$option_users[$line->id] = array();
 			$option_users[$line->optionid][] = $line->lastname . ', ' . $line->firstname;
+			$option_userids[$line->optionid][] = $line->userid;
 		}
         
         $availableoption = count($options['options']);
@@ -93,12 +96,18 @@ class mod_choicegroup_renderer extends plugin_renderer_base {
 
             $labeltext = $option_group[$option->attributes->value];
             $group_members_names = isset($option_users[$option->attributes->value]) ? $option_users[$option->attributes->value] : array();
-            sort($group_members_names);
+			$group_members_ids = isset($option_userids[$option->attributes->value]) ? $option_userids[$option->attributes->value] : array();
+            //sort($group_members_names);
             if (!empty($option->attributes->disabled) || sizeof($group_members_names) >= $option->maxanswers) {
                 $labeltext .= ' ' . get_string('full', 'choicegroup');
 				$option->attributes->disabled = true;
                 $availableoption--;
             }
+
+			for ($i = 0; $i < sizeof($group_members_names); $i++) {
+				$url = new moodle_url('/user/view.php', array('id'=>$groups_members_ids[$i],'course'=>$options['courseid']));
+				$groups_members_names[$i] = html_writer::link($url, $groups_members_names[$i]);
+			}
 
             $html .= html_writer::empty_tag('input', (array)$option->attributes);
             $html .= html_writer::tag('td', $labeltext, array('for'=>$option->attributes->name));

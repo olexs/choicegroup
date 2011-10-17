@@ -123,7 +123,7 @@
     if ( (!$current or $choicegroup->allowupdate) and $choicegroupopen and is_enrolled($context, NULL, 'mod/choicegroup:choose')) {
     // They haven't made their choicegroup yet or updates allowed and choicegroup is open
 
-        $options = choicegroup_prepare_options($choicegroup, $USER, $cm, $allresponses);
+        $options = choicegroup_prepare_options($choicegroup, $USER, $cm, $allresponses, $course);
         $renderer = $PAGE->get_renderer('mod_choicegroup');
         echo $renderer->display_options($options, $cm->id, $choicegroup->display);
         $choicegroupformshown = true;

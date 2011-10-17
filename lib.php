@@ -196,13 +196,14 @@ function choicegroup_update_instance($choicegroup) {
  * @param array $allresponses
  * @return array
  */
-function choicegroup_prepare_options($choicegroup, $user, $coursemodule, $allresponses) {
+function choicegroup_prepare_options($choicegroup, $user, $coursemodule, $allresponses, $course) {
     global $DB;
 
     $cdisplay = array('options'=>array());
 
     $cdisplay['choicegroupid'] = $choicegroup->id;
     $cdisplay['limitanswers'] = true;
+	$cdisplay['courseid'] = $course->id;
     $context = get_context_instance(CONTEXT_MODULE, $coursemodule->id);
 
     foreach ($choicegroup->option as $optionid => $text) {
