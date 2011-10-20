@@ -42,6 +42,7 @@ $string['choicefull'] = 'Diese Gruppe ist voll und kann nicht mehr ausgewählt w
 $string['choicegroup:choose'] = 'Auswahl aufnehmen';
 $string['choicegroupname'] = 'Bezeichnung der Gruppenauswahl';
 $string['choicegroupopen'] = 'Offen';
+$string['choicegroupfull'] = 'Die Auswahl hat keine freien Slots mehr.';
 $string['choicegroupoptions'] = 'Auswahloptionen';
 $string['choicegroupoptions_help'] = 'Hier geben Sie die Optionen an, die von Teilnehmern angewählt werden können.
 

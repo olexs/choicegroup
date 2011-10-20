@@ -42,6 +42,7 @@ $string['choicefull'] = 'This choice is full and there are no available places.'
 $string['choicegroup:choose'] = 'Record a choice';
 $string['choicegroupname'] = 'Group choice name';
 $string['choicegroupopen'] = 'Open';
+$string['choicegroupfull'] = 'This choice has no more open slots.';
 $string['choicegroupoptions'] = 'Choice options';
 $string['choicegroupoptions_help'] = 'Here is where you specify the options that participants have to choose from.
 
