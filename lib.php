@@ -644,8 +644,8 @@ function choicegroup_get_participants($choicegroupid) {
 function choicegroup_get_option_text($choicegroup, $id) {
     global $DB;
 
-    if ($result = $DB->get_record("choicegroup_options", array("id" => $id))) {
-        return $result->text;
+    if ($result = $DB->get_record_sql('SELECT g.name FROM {groups} g, {choicegroup_options} o WHERE o.id = ? AND g.id = o.text', array($id))) {
+        return $result->name;
     } else {
         return get_string("notanswered", "choicegroup");
     }

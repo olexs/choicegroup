@@ -204,7 +204,8 @@ class mod_choicegroup_renderer extends plugin_renderer_base {
             if ($choicegroups->showunanswered && $optionid == 0) {
                 $coldata .= html_writer::tag('div', format_string(get_string('notanswered', 'choicegroup')), array('class'=>'option'));
             } else if ($optionid > 0) {
-                $coldata .= html_writer::tag('div', format_string($choicegroups->options[$optionid]->text), array('class'=>'option'));
+                //$coldata .= html_writer::tag('div', format_string($choicegroups->options[$optionid]->text), array('class'=>'option'));
+				$coldata .= html_writer::tag('div', format_string(choicegroup_get_option_text($choicegroups, $optionid)), array('class'=>'option'));
             }
             $numberofuser = 0;
             if (!empty($options->user) && count($options->user) > 0) {
