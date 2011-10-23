@@ -106,6 +106,55 @@
         (empty($choicegroup->allowupdate) || ($choicegroup->timeclose !=0 && $timenow > $choicegroup->timeclose)) ) {
         echo $OUTPUT->box(get_string("yourselection", "choicegroup", userdate($choicegroup->timeopen)).": <b>".format_string(choicegroup_get_option_text($choicegroup, $current->optionid)).'</b>', 'generalbox', 'yourselection');
     }
+	
+	// if user has rights to see all results and the activity is closed, display all his groups ("mentor-mode")
+	if (has_capability('mod/choicegroup:readresponses', $context) && ($choicegroup->timeclose !=0 && $timenow > $choicegroup->timeclose)) {
+		// get group names
+		$groups = $DB->get_records_sql('SELECT
+											DISTINCT g.id, 
+											g.name
+										FROM
+											{groups} g,
+											{choicegroup_options} o,
+											{groups_members} gm
+										WHERE
+											o.choicegroupid = ? AND
+											gm.groupid = o.text AND
+											gm.userid = ? AND
+											g.id = gm.groupid
+										ORDER BY g.name', array($choicegroup->id, $USER->id));
+		
+		$html = get_string('yourgroups', 'choicegroup').':<ul>';
+										
+		foreach($groups as $group) {
+			$html .= '<li><b>'.$group->name.'</b><ul>';
+		
+			// get participants
+			$participants = $DB->get_records_sql('SELECT
+													u.id,
+													u.lastname,
+													u.firstname
+												FROM
+													{user} u,
+													{groups_members} gm
+												WHERE
+													gm.groupid = ? AND
+													u.id = gm.userid AND
+													u.id <> ?
+												ORDER BY u.lastname, u.firstname', array($group->id, $USER->id));
+			
+			foreach($participants as $participant) {
+				$url = new moodle_url('/user/view.php', array('id'=>$participant->id,'course'=>$course->id));
+				$html .= "<li><a href='$url'>$participant->lastname, $participant->firstname</a></li>";
+			}
+			
+			$html .= '</ul></li>';
+		}
+		
+		$html .= '</ul>';
+		echo $OUTPUT->box($html);
+		
+	}
 
 /// Print the form
     $choicegroupopen = true;

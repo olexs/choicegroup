@@ -96,3 +96,5 @@ $string['numberofuser'] = 'The number of user';
 
 $string['members/max'] = 'Fill / Capacity';
 $string['groupmembers'] = 'Group members';
+
+$string['yourgroups'] = 'Your groups';
