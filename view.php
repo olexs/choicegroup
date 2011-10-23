@@ -124,10 +124,10 @@
 											g.id = gm.groupid
 										ORDER BY g.name', array($choicegroup->id, $USER->id));
 		
-		$html = get_string('yourgroups', 'choicegroup').':<ul>';
+		$html = get_string('yourgroups', 'choicegroup').':<br>';
 										
 		foreach($groups as $group) {
-			$html .= '<li><b>'.$group->name.'</b><ul>';
+			$html .= '- <b>'.$group->name.'</b>: ';
 		
 			// get participants
 			$participants = $DB->get_records_sql('SELECT
@@ -145,13 +145,13 @@
 			
 			foreach($participants as $participant) {
 				$url = new moodle_url('/user/view.php', array('id'=>$participant->id,'course'=>$course->id));
-				$html .= "<li><a href='$url'>$participant->lastname, $participant->firstname</a></li>";
+				$html .= "<a href='$url'>$participant->lastname, $participant->firstname</a>; ";
 			}
 			
-			$html .= '</ul></li>';
+			$html .= '<br />';
 		}
 		
-		$html .= '</ul>';
+		
 		echo $OUTPUT->box($html);
 		
 	}
