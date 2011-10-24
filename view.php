@@ -107,8 +107,10 @@
         echo $OUTPUT->box(get_string("yourselection", "choicegroup", userdate($choicegroup->timeopen)).": <b>".format_string(choicegroup_get_option_text($choicegroup, $current->optionid)).'</b>', 'generalbox', 'yourselection');
     }
 	
-	// if user has rights to see all results and the activity is closed, display all his groups ("mentor-mode")
-	if (has_capability('mod/choicegroup:readresponses', $context) && ($choicegroup->timeclose !=0 && $timenow > $choicegroup->timeclose)) {
+	// if user has rights to see all results and cannot post results (activity closed or no rights), display all his groups ("mentor-mode")
+	if (has_capability('mod/choicegroup:readresponses', $context) 
+		&& (($choicegroup->timeclose !=0 && $timenow > $choicegroup->timeclose)
+			|| !has_capability('mod/choicegroup:choose', $context))) {
 		// get group names
 		$groups = $DB->get_records_sql('SELECT
 											DISTINCT g.id, 
