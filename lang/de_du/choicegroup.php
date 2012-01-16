@@ -49,7 +49,7 @@ $string['choicegroupoptions_help'] = 'Hier gibst du die Optionen an, die von Tei
 Du kannst so viele wie Sie brauchen davon ausfüllen. Die nicht ausgefüllten Felder werden nicht als Optionen in der Auswahl übernommen. Falls du mehr als 8 Optionen brauchst, benutze den "3 Felder hinzufügen"-Button.';
 $string['limitanswers_help'] = 'Diese Option erlaubt es dir, die Gruppengröße einzuschränken. Sobald das Limit erreicht ist, können sich keine weiteren Teilnehmer für diese Gruppe entscheiden.
 
-Falls die Einschränkung aus oder auf 0 eingestellt ist, können beliebig viele Teilnehmer sich in eine Gruppe eintragen.';
+Wenn diese Option nicht gewählt ist, werden alle Gruppen ohne Größeneinschränkung anzeigt.';
 $string['choicegroup:readresponses'] = 'Antworten lesen';
 $string['choicegroupsaved'] = 'Deine Auswahl wurde gespeichert';
 $string['choicetext'] = 'Auswahltext';
