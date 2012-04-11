@@ -101,9 +101,9 @@
 
     $timenow = time();
     $current = false;  // Initialise for later
-    //if user has already made a selection, and they are not allowed to update it, show their selected answer.
-    if (isloggedin() && ($current = $DB->get_record('choicegroup_answers', array('choicegroupid' => $choicegroup->id, 'userid' => $USER->id))) &&
-        (empty($choicegroup->allowupdate) || ($choicegroup->timeclose !=0 && $timenow > $choicegroup->timeclose)) ) {
+    //if user has already made a selection, show their selected answer.
+    if (isloggedin() && ($current = $DB->get_record('choicegroup_answers', array('choicegroupid' => $choicegroup->id, 'userid' => $USER->id)))) { 
+		//&& (empty($choicegroup->allowupdate) || ($choicegroup->timeclose !=0 && $timenow > $choicegroup->timeclose)) ) {
         echo $OUTPUT->box(get_string("yourselection", "choicegroup", userdate($choicegroup->timeopen)).": <b>".format_string(choicegroup_get_option_text($choicegroup, $current->optionid)).'</b>', 'generalbox', 'yourselection');
     }
 	
